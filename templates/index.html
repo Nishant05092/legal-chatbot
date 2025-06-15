@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contract Legal Chatbot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">LegalBot</div>
+    <ul class="nav-links" id="nav-links"> 
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Features</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#" class="chat-button">Chat Now</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Welcome to LegalBot</h1>
+    <p>Your smart chat assistant for contract-related legal queries. Ask questions, get answers instantly.</p>
+  </section>
+
+  <!-- Chat Interface -->
+  <section class="chatbox">
+    <div id="chat-display"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Ask your contract question..." required/>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+
+   <!-- Team Section -->
+<section class="section team" id="team">
+  <div class="container">
+    <div class="section-title fade-in">
+      <h2>Our Team</h2>
+      <p>The passionate minds behind Smart Contract Analyzer</p>
+    </div>
+    <div class="team-members" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 38px 32px;">
+      
+      <div class="member-card fade-in delay-1" style="flex: 1 1 200px; max-width: 220px; min-width: 180px;">
+        <img src=https://avatars.githubusercontent.com/u/155230428?v=4 alt="Nishant Sharma" class="member-img">
+        <h3 class="member-name">Nishant Sharma</h3>
+        <p class="member-role">AI Engineer</p>
+        <div class="member-social">
+          <a href="https://www.linkedin.com/in/nishant-sharma-1b5a66227/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+      
+    
+      <div class="member-card fade-in delay-4" style="flex: 1 1 200px; max-width: 220px; min-width: 180px;">
+        <img src="https://media.licdn.com/dms/image/v2/D5603AQEE5MmykxyLrw/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1706643825935?e=1755129600&v=beta&t=NPWjPd_GB-WbnmAvOdaIj02E6HBaYiegxmXvPD6S-CM" alt="Baibhav Pratap Singh" class="member-img">
+        <h3 class="member-name">Baibhav Pratap Singh</h3>
+        <p class="member-role">Frontend Developer</p>
+        <div class="member-social">
+          <a href="https://www.linkedin.com/in/baibhav-pratap-singh-8a0230268/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-10 fade-in">
+      <h3>Portfolio project</h3>
+      <p>Project: Legal chatbot | Track: AI/LegalTech</p>
+      <div class="mt-5">
+        <a href="#" class="btn" style="margin-right: 15px;">
+          <i class="fas fa-code"></i> View Source Code
+        </a>
+        <a href="#" class="btn btn-outline" style="background: transparent; border-color: var(--primary); color: var(--primary);">
+          <i class="fas fa-external-link-alt"></i> Github Submission
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Us</h3>
+        <p>Email: support@legalbot.com</p>
+        <p>Phone: +91 9876543210</p>
+      </div>
+      <div>
+        <h3>Disclaimer</h3>
+        <p>This chatbot provides general legal information and does not constitute legal advice.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 LegalBot | All Rights Reserved @Nishant sharma
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("nav-links");
+      nav.classList.toggle("show");
+    }
+
+    document.getElementById("chat-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const input = document.getElementById("user-input");
+      const question = input.value;
+      input.value = "";
+
+      const display = document.getElementById("chat-display");
+      display.innerHTML += `<p class="user-msg"><b>You:</b> ${question}</p>`;
+
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      const data = await res.json();
+
+      display.innerHTML += `<p class="bot-msg"><b>Bot:</b> ${data.answer}</p>`;
+      display.scrollTop = display.scrollHeight;
+    });
+  </script>
+
+</body>
+</html>
